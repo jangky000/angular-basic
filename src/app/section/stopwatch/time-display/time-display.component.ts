@@ -1,9 +1,13 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { PageToggleService } from 'src/app/share/page-toggle.service';
 
 @Component({
   selector: 'app-time-display',
   templateUrl: './time-display.component.html',
-  styleUrls: ['./time-display.component.scss']
+  styleUrls: ['./time-display.component.scss'],
+  providers:[
+    // PageToggleService
+  ]
 })
 export class TimeDisplayComponent implements OnChanges {
 
@@ -15,17 +19,22 @@ export class TimeDisplayComponent implements OnChanges {
 
   timeInterval:any;
 
-  constructor() {
-    console.log('inputData', this.inputData)
-    // setInterval(()=>{
-
-    //   this.test++;
-
-    // }, 1000)
-  }
+  constructor(
+    public pageToggleService: PageToggleService
+  ) {}
 
   timeStart(){
+    this.pageToggleService.plusCount();
+    clearInterval(this.timeInterval);
     this.timeInterval = setInterval(()=>{
+      if(this.ms >= 100){
+        this.ms = 0;
+        this.sec++;
+      }
+      if(this.sec >= 60){
+        this.sec = 0;
+        this.min++;
+      }
 
       this.ms++;
 
@@ -37,8 +46,10 @@ export class TimeDisplayComponent implements OnChanges {
   }
 
   timeReset(){
-    this.timeStop();
+    clearInterval(this.timeInterval);
     this.ms = 0;
+    this.sec = 0;
+    this.min = 0;
   }
 
   ngOnChanges(changes: SimpleChanges){

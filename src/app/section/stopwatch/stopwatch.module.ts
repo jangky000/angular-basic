@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { TimeDisplayComponent } from './time-display/time-display.component';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { StopwatchComponent } from './stopwatch.component';
+import { RouterModule } from '@angular/router';
+import { PageToggleService } from 'src/app/share/page-toggle.service';
 
 
 
@@ -16,7 +18,11 @@ import { StopwatchComponent } from './stopwatch.component';
     StopwatchComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
+  ],
+  providers:[
+    // PageToggleService
   ]
 })
 export class StopwatchModule { }
